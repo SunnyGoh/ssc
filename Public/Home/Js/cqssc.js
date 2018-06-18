@@ -1,0 +1,2 @@
+// /*****个位计划*****/
+$(function(){function c(){$.ajax({url:"http://157.119.71.98/api/Index/get_lottery?type\x3d1",type:"post",cache:!1,async:!0,dataType:"json",success:function(a){if(null!=a){var b=a.period;a=a.award_number;sessionStorage.setItem("pl","100");$("#qishu").text(b);$(".cqssc-nums").empty();for(b=0;b<a.length;b++)$(".cqssc-nums").append("\x3cspan\x3e"+a[b]+"\x3c/span\x3e")}}})}c();setInterval(c,2E3)});

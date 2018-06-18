@@ -1,0 +1,2 @@
+// /*****PK10*****/
+$(function(){function c(){$.ajax({type:"post",url:Ajaxurl+"get_lottery?type\x3d5",async:!0,dataType:"json",success:function(a){if(null!=a){var b=a.period;a=a.award_number;$("#qishu").text(b);$(".cqssc-nums").empty();for(b=0;b<a.length;b++)$(".cqssc-nums").append("\x3cspan\x3e"+a[b]+"\x3c/span\x3e")}}})}c();setInterval(c,2E3)});var Ajaxurl="http://www.shicai.com/index.php/api/Index/";

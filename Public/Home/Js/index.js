@@ -1,0 +1,2 @@
+/*****个位计划*****/
+$(function(){function c(){$.ajax({url:Ajaxurl+"get_lottery_plan?type\x3d1",type:"post",cache:!1,async:!0,dataType:"json",success:function(a){if(null!=a){var b=a.next_plan;a=a.awd_plan;$("#send").text(b);$("#plandt").html("");for(b=0;b<a.length;b++)$("#plandt").append('\x3cspan style\x3d"font-size:18px;line-height:30px;"\x3e'+a[b].award_plan+"\x3c/span\x3e\x3cbr\x3e")}else d.log("\u8bfb\u53d6\u6570\u636e\u5931\u8d25!")},error:function(){d.log("\u8bfb\u53d6\u6570\u636e\u5931\u8d25!")}})}var d=console;c();setInterval(c,2E3)});

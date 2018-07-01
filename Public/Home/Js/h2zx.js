@@ -1,1 +1,30 @@
-$(function(){function c(){$.ajax({url:Ajaxurl+"get_lottery_plan?type\x3d2",type:"post",cache:!1,async:!0,dataType:"json",success:function(a){if(null!=a){var b=a.next_plan;a=a.awd_plan;$("#sendh2").text(b);$("#plandth2").html("");for(b=0;b<a.length;b++)$("#plandth2").append('\x3cspan style\x3d"font-size:18px;line-height:30px;"\x3e'+a[b].award_plan+"\x3c/span\x3e\x3cbr\x3e")}else d.log("\u8bfb\u53d6\u6570\u636e\u5931\u8d25!")},error:function(){d.log("\u8bfb\u53d6\u6570\u636e\u5931\u8d25!")}})}var d=console;c();setInterval(c,2E3)});
+$(function () {
+    let c=console;
+    /*****后二直选*****/
+    function postallh2() {
+        $.ajax({
+            url:Ajaxurl+'get_lottery_plan?type=2',
+            type:"post",
+            cache:false,
+            async:true,
+            dataType:"json",
+            success:function (data) {
+                if(data!=null){
+                    var next_plan=data.next_plan,
+                        awd_plan=data.awd_plan;
+                    $('#sendh2').text(next_plan);//期数
+                    $('#plandth2').empty();//清空内容
+                    for(var k=0;k<awd_plan.length;k++){//计划表
+                        $('#plandth2').append('<p class="jhb" style="font-size:18px;line-height:30px;">'+awd_plan[k]['award_plan']+'</p>');
+                    }
+                }else{
+                    c.log("读取数据失败!");
+                }
+            },error:function () {
+                c.log("读取数据失败!");
+            }
+        });
+    }
+    postallh2();
+    setInterval(postallh2,2000);
+});

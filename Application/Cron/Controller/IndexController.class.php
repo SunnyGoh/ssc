@@ -9,7 +9,6 @@ class IndexController extends Controller
      */
     public function get_lottery_data()
     {
-
         $type = empty($_GET['type'])?$_POST['type']:$_GET['type'];
 
         if($type==1)
@@ -85,6 +84,7 @@ class IndexController extends Controller
         $AveryData = M('award');
         $amap = array('lottery_type' => 1, 'type' =>1,'period'=>$new_kai['date']);
         $award_info = $AveryData->where($amap)->limit(1)->find();
+  
         //如果有本期中奖号码的话 返回
         if($award_info){
             return false;
@@ -243,6 +243,7 @@ class IndexController extends Controller
         $AveryData = M('award');
         $amap = array('lottery_type' => $lottery_type, 'type' =>$type,'period'=>$new_kai['date']);
         $award_info = $AveryData->where($amap)->limit(1)->find();
+  
         //如果有本期中奖号码的话 返回
         if($award_info){
             return false;
@@ -305,7 +306,7 @@ class IndexController extends Controller
                 $new_data['period'] = $new_date;//期数
                 $new_data['award_number'] = $award_number;//开奖号码
                 $new_data['add_time'] = $time;
-                $new_data['award_plan'] = $serial_number.'后二直选 '.'['.$every_str_num.'] '.$new_date.'期 '.$award_number.' '.$status_name;
+                $new_data['award_plan'] = $serial_number.' 后二直选 '.'['.$every_str_num.'] '.$new_date.'期 '.$award_number.' '.$status_name;
                 $EveryData = M('award_plans');
                 $up_kai = array('id' => $new_info['id'], 'type' =>$type,'lottery_type'=>$lottery_type);
                 $EveryData->where($up_kai)->save($new_data);
@@ -562,7 +563,6 @@ class IndexController extends Controller
     {
 
 
-
         //抓取每天时时彩的开奖结果
         $common_data = $this->common_lottery();
         $new_kai = $common_data['new_kai'];
@@ -580,22 +580,22 @@ class IndexController extends Controller
         $lottery_type = 1;
         //分析推荐
         //(1)个位计划
-//        $AveryData = M('award');
-//        $amap = array('lottery_type' => $lottery_type, 'type' =>$type,'period'=>$new_kai['date']);
-//        $award_info = $AveryData->where($amap)->limit(1)->find();
-//        //如果有本期中奖号码的话 返回
-//        if($award_info){
-//            return false;
-//        }
-//        //本期开奖号码 数据库没有的话  进行插入
-//        if(empty($award_info)){
-//            $award_data['period'] = $new_kai['date'];//期数
-//            $award_data['award_number'] = $award_number;//开奖号码
-//            $award_data['type'] = $type;
-//            $award_data['lottery_type'] = $lottery_type;
-//            $AveryData = M('award');
-//            $AveryData->add($award_data);
-//        }
+        $AveryData = M('award');
+        $amap = array('lottery_type' => $lottery_type, 'type' =>$type,'period'=>$new_kai['date']);
+        $award_info = $AveryData->where($amap)->limit(1)->find();
+        //如果有本期中奖号码的话 返回
+        if($award_info){
+            return false;
+        }
+        //本期开奖号码 数据库没有的话  进行插入
+        if(empty($award_info)){
+            $award_data['period'] = $new_kai['date'];//期数
+            $award_data['award_number'] = $award_number;//开奖号码
+            $award_data['type'] = $type;
+            $award_data['lottery_type'] = $lottery_type;
+            $AveryData = M('award');
+            $AveryData->add($award_data);
+        }
         //查询是否有本期数据1.查询最新的一期计划 2.没有数据的话从新建立
         $EveryData = M('award_plans');
         $map = array('lottery_type' => $lottery_type, 'type' =>$type);
@@ -732,19 +732,23 @@ class IndexController extends Controller
         $time = time();
         //抓取每天北京赛车开奖信息
         $rules = array(
-            'text' => array('.nums','text'),
-            'date' => array('.even td:eq(0)','text'),
+            'date' => array('.dipincaitable tr:eq(1) td:eq(2)','html'),
+            'text' => array('.dipincaitable tr:eq(1) li','text'),
         );
-        $url = 'http://www.beijingsaiche.com/pk10/';
+        $url = 'http://www.km28.com/lottery/gp/bj.html';
         $win = QueryList::Query($url,$rules)->data;
-        $new_date = substr($win[0]['date'], -3);
+        preg_match_all ('/第(.*?)期/is', $win[0]['date'], $matches);
+        $new_date = substr($matches[1][0], -3);
         //网页表头
-        $period = $win[0]['date'];//期数
-        $win_first_str = preg_replace("/[\s]{2,}/"," ",$win[0]['text']);
-        $win = explode(' ',$win_first_str);
+        $period = $matches[1][0];//期数
+        $year = date('Y');
+        preg_match_all("|$year|",$period,$arr);
+		if($arr[0]){
+  			return false;
+		}
         if($win){
             foreach ($win as $k=>&$v){
-                $v = sprintf ( "%02d",$v);
+                $v = sprintf ( "%02d",$v['text']);
             }
             unset($v);
         }
@@ -863,6 +867,7 @@ class IndexController extends Controller
             $next_date = sprintf ( "%03d",$next_date);
             //分析数据
             $last_serial_number = $next_date+2;
+            $last_serial_number = substr($last_serial_number, -3);
             $last_serial_number = sprintf ( "%03d",$last_serial_number);
             $serial_number = $next_date.'-'.$last_serial_number;
             $race_fir_num = $this->getCode(5,1,10);

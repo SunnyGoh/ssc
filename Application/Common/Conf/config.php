@@ -7,4 +7,5 @@ return array(
         '__IMAGE__' => __ROOT__ . '/Public/Image',
         '__DATA__' => __ROOT__ . '/Data/'
     ),
+  'URL_MODEL'   =>2,
 );

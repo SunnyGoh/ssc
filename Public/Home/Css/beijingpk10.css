@@ -1,0 +1,23 @@
+.adui{width:625px;height:176px;}
+.menu{width:222px;height:64px;}
+.topmenu{width:230px;height:70px;}
+.size{font-size:16px;}
+@media screen and (max-width:1000px) {
+    .jhb{margin-top:20px;}
+    .adui{width:820px;height:266px;}
+    .menu{width:441px;height:101px;}
+    .topmenu{width:441px;height:111px;}
+    .main .width_1000 .count .middlecount h2{font-size:36px!important;}
+    #qishu{font-size:45px!important;}
+    .cqssc-nums{padding-top:15px!important;}
+    .table{margin-top:20px!important;}
+    .main .width_1000 .count .lastcount h2{padding-top:1px!important;font-size:27px!important;}
+    .main .width_1000 .count .firstcount .text{margin-top:10px!important;}
+    .main .width_1000 .count .lastcount #bottom #countdown a{font-size:28px!important;}
+    .main .width_1000 .count .firstcount .text p span{font-size:15px!important;}
+    .main .width_1000 .count .firstcount .text h2{font-size:28px!important;}
+    .header_top{margin-bottom:14px!important;font-size:25px!important;}
+    #ftcolor{font-size:29px!important;}
+    .size{font-size:14px!important;}
+    #sendpk10{font-size:29px!important;}
+}

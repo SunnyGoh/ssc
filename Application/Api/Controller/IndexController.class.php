@@ -1,11 +1,4 @@
 <?php
-/**
- *时时彩  北京赛车接口
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2018/6/14
- * Time: 12:09
- */
 namespace Api\Controller;
 use Think\Controller;
 use QL\QueryList;
@@ -72,7 +65,7 @@ class IndexController extends Controller
         $EveryData = D('award');
         $map['type']  = array('eq',$type);
         $map['lottery_type']  = array('eq',$lottery_type);
-        $period = $EveryData->field()->where($map)->order('id desc')->getField('period');
+        $period = $EveryData->where($map)->order('id desc')->getField('period');
         $next_date = substr($period, -3);
         if($type!=5){
             if($next_date=='120'){
@@ -92,7 +85,6 @@ class IndexController extends Controller
         $nap['type']  = array('eq',$type);
         $nap['lottery_type']  = array('eq',$lottery_type);
         $next_info = $EveryData->field('serial,analysis')->where($nap)->order('id desc')->limit(1)->find();
-        dump($next_info);die;
         if($next_info){
             $next_plan = $next_info['serial'].'期 '.$lottery_name.'【'. $next_info['analysis'].'】'.$next_date.'期 等开';
         }

@@ -5,9 +5,10 @@ use QL\QueryList;
 class IndexController extends Controller
 {
     public function index()
-    {
+    { 
+     
 
-       $this->display();
+       $this->display('index');
     }
     public function lottery_se()
     {
